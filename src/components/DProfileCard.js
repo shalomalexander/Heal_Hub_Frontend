@@ -19,7 +19,7 @@ const DProfileCard = () => {
     mobileNumber: "",
     profile: "",
     address: "",
-    orgId: "",
+    // orgId: "",
   });
 
   useEffect(() => {
@@ -35,6 +35,7 @@ const DProfileCard = () => {
             },
           }
         );
+      
         setData((prevData) => {
           return {
             ...prevData,

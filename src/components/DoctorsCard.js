@@ -43,7 +43,7 @@ const DoctorsCard = (props) => {
             </tr>
             <tr>
               <th className="w-25">Doctor's Organization ID</th>
-              <td>{props.data.orgId}</td>
+              <td>{props.data.orgId.orgName}</td>
             </tr>
             <tr>
               <th className="w-25">Contact Number</th>

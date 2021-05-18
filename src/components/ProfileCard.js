@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { loginContext, urlContext } from "../App";
 import axios from "axios";
-import male from "../assets/Images/profile.png";
+import ProfileAvatar from "./ProfileAvatar";
 
 const ProfileCard = () => {
   const url = useContext(urlContext);
@@ -34,11 +34,11 @@ const ProfileCard = () => {
           {data.length === 0 ? (
             <h3>Currently no Data</h3>
           ) : (
-            <div className="">
-              <div className="row ">
-                <div className="col gradient-card">
+        
+              <div className="row input-row">
+                <div className="col  gradient-card">
                   <div className="row profile-container">
-                    <img className="profile-img" src={male} alt=""/>
+                    <ProfileAvatar />
                   </div>
                   <div className="row profile-container">
                     <p><strong>{data["firstName"]}{" "}
@@ -50,6 +50,7 @@ const ProfileCard = () => {
                   <div className="row">
                     <p>
                       <strong>ID:</strong> {data["user"]}
+                     
                     </p>
                     <p>
                       <strong>Email ID:</strong> {data["emailId"]}
@@ -58,6 +59,7 @@ const ProfileCard = () => {
                       <strong>Mobile Number:</strong> {data["mobileNumber"]}
                     </p>
                   </div>
+                  <hr/>
                   <div className="row">
                     <p>
                       <strong>Blood Group:</strong> {data["bloodGroup"]}
@@ -69,14 +71,14 @@ const ProfileCard = () => {
                       <strong>Date of Birth:</strong> {data["dateOfBirth"]}
                     </p>
                   </div>
+                  <hr/>
                    <div className="row">
                     <p>
                       <strong>Address:</strong> {data["addressLine"]}, {data["cityOrTown"]},  {data["district"]}, {data["state"]}, {data["pin"]}
                     </p>
                   </div>
                 </div>
-              </div> 
-            </div>  
+              </div>  
           )}
         </div>
       </div>

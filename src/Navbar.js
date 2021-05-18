@@ -115,7 +115,7 @@ const Navbar = () => {
                       to="/register"
                       style={{ textDecoration: "none" }}
                     > 
-                        <span class="material-icons">person_add </span>
+                        <span className="material-icons">person_add </span>
                        Register
                     </Link>
                   </li>

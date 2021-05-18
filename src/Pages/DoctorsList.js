@@ -10,6 +10,7 @@ const DoctorsList = () => {
   const [doctors, setDoctors] = useState([]);
 
   useEffect(() => {
+    
     const fetchData = async () => {
       try {
         const response = await axios.get(url + `/api/v1/accessverification/`, {
@@ -19,10 +20,12 @@ const DoctorsList = () => {
           },
         });
         setDoctors(response.data);
+        console.log(response);
       } catch (err) {
         console.log(err.response);
       }
     };
+
     fetchData();
   }, [url, state.token]);
 

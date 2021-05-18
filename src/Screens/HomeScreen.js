@@ -44,12 +44,12 @@ const HomeScreen = () => {
         </div>
         <div className="home-content-inner2">
           <div className="home-content-inner2-inner">
-            <div class="card text-center" style={{ width: "100%",  backgroundColor: "#212925",
+            <div className="card text-center" style={{ width: "100%",  backgroundColor: "#212925",
                 color: "white" }}>
             <img className="home-1-img" src={about} alt="#" />
-              <div class="card-body">
-                <h5 class="card-title">What is HealHub?</h5>
-                <p class="card-text">
+              <div className="card-body">
+                <h5 className="card-title">What is HealHub?</h5>
+                <p className="card-text">
                   HealHub helps to store and maintain the health records of a
                   patient and provides patient the facility to share their
                   medical records with a Doctor at their own ease. Medical
@@ -77,16 +77,16 @@ const HomeScreen = () => {
           </div>
           <div className="home-content-inner2-inner">
             <div
-              class="card text-center"
+              className="card text-center"
               style={{
                 width: "100%",
                 backgroundColor: "#212925",
                 color: "white",
               }}
             >
-              <div class="card-body">
-                <h5 class="card-title">Patient's</h5>
-                <p class="card-text">
+              <div className="card-body">
+                <h5 className="card-title">Patient's</h5>
+                <p className="card-text">
                   A patient is a stakeholder who requires medical care and
                   treatment based on his past medical history. Here, a patient
                   can store and share his medical records safely and securely.
@@ -100,16 +100,16 @@ const HomeScreen = () => {
               </div>
             </div>
             <div
-              class="card text-center"
+              className="card text-center"
               style={{
                 width: "100%",
                 backgroundColor: "#212925",
                 color: "white",
               }}
             >
-              <div class="card-body">
-                <h5 class="card-title">Doctor's</h5>
-                <p class="card-text">
+              <div className="card-body">
+                <h5 className="card-title">Doctor's</h5>
+                <p className="card-text">
                   Doctors are the prime stakeholder, who will have utmost
                   benefit from this platform. They will be able to access
                   patient’s health record with ease and will be able to serve
@@ -135,14 +135,14 @@ const HomeScreen = () => {
            
 
             <div
-              class="card text-center"
+              className="card text-center"
               style={{ width: "100%", margin: "10px",  backgroundColor: "#212925",
               color: "white" }}
             >
                <img className="home-1-img" src={security} alt="#" />
-              <div class="card-body">
-                <h5 class="card-title">How is your data secure with us?</h5>
-                <p class="card-text">
+              <div className="card-body">
+                <h5 className="card-title">How is your data secure with us?</h5>
+                <p className="card-text">
                   Knox provides one token per call to the login view - allowing
                   each client to have its own token which is deleted on the
                   server side when the client logs out.Knox tokens are only
@@ -164,7 +164,7 @@ const HomeScreen = () => {
           </div>
           <div className="home-content-inner2-inner">
             <div
-              class="card text-center"
+              className="card text-center"
               style={{
                 width: "100%",
                 backgroundColor: "#212925",
@@ -172,10 +172,10 @@ const HomeScreen = () => {
               }}
             >
              
-              <div class="card-body">
+              <div className="card-body">
               <img className="home-1-img" src={support} alt="#" />
-                <h5 class="card-title">Found a Bug or Issue ?</h5>
-                <p class="card-text">
+                <h5 className="card-title">Found a Bug or Issue ?</h5>
+                <p className="card-text">
                   We assure customer reliability for our web portal. Support
                   team is available to resolve any issue arose while using the
                   web application. Contact us today at{" "}
@@ -184,7 +184,7 @@ const HomeScreen = () => {
                 </p>
                 <a
                   href="https://forms.gle/9qK4jrywRds9zuxm9"
-                  class="btn btn-primary"
+                  className="btn btn-primary"
                 >
                   Support Form
                 </a>
@@ -204,21 +204,21 @@ const HomeScreen = () => {
           </div>
           <div className="home-content-inner2-inner">
             <div
-              class="card text-center"
+              className="card text-center"
               style={{
                 width: "100%",
                 backgroundColor: "#212925",
                 color: "white",
               }}
             >
-              <div class="card-body">
-                <h5 class="card-title">
+              <div className="card-body">
+                <h5 className="card-title">
                   Scan the <strong>QR-CODE</strong>
                 </h5>
                 <div className="qr-container">
                   <img className="qrcode" src={qrcode} alt="#" />
                 </div>
-                <p class="card-text">
+                <p className="card-text">
                   HealHub is a mobile friendly platform. Now you can access the
                   platform by just scanning this QR-code using your Device. Why
                   not grab your phone and give a try scanning the QR-Code.

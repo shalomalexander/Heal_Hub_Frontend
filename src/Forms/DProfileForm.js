@@ -5,7 +5,7 @@ import axios from "axios";
 
 const DProfileForm = ({ showModal, setShowModal }) => {
   const url = useContext(urlContext);
-  const state = useContext(loginContext);
+  const { state } = useContext(loginContext);
   const [data, setData] = useState({
     user: "",
     name: "",
