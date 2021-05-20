@@ -1,8 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { loginContext, urlContext } from "../App";
-import moment from "moment";
 import toast from "react-hot-toast";
+import InputComponent from "../components/InputComponent";
+import InputSelectComponent from "../components/InputSelectComponent";
+import InputDateComponent from "../components/InputDateComponent";
 
 const Profile = () => {
   const url = useContext(urlContext);
@@ -81,6 +83,7 @@ const Profile = () => {
   });
 
   const [isUpdate, setIsUpdate] = useState(false);
+  const [showUpdate, setShowUpdate] = useState(false);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -90,7 +93,6 @@ const Profile = () => {
   };
 
   const handleSubmit = (event) => {
-    console.log("THIS IS HANDLESUBMIT");
     //AXIOS POST Request
     axios
       .post(url + "/api/v1/PersonalInfo/", profile, {
@@ -99,7 +101,7 @@ const Profile = () => {
         },
       })
       .then((response) => {
-        alert("Profile Updated Successfully.");
+        toast.success("Profile Updated Successfully.");
       })
       .catch((error) => {
         console.log(error.response.request);
@@ -123,6 +125,7 @@ const Profile = () => {
       .then((response) => {
         // alert("Profile Updated Successfully.");
         toast.success("Profile Updated Successfully.");
+        setShowUpdate(false);
       })
       .catch((error) => {
         console.log(error.response);
@@ -137,6 +140,11 @@ const Profile = () => {
     } else {
       handleSubmit();
     }
+  };
+
+  const toggleUpdate = () => {
+    setShowUpdate(!showUpdate);
+    
   };
 
   useEffect(() => {
@@ -179,250 +187,263 @@ const Profile = () => {
       <div className="content-inner">
         <div className="profile-inner">
           <div className="row">
-            <p className="bold-300">Update Profile</p>
-           
+            <p className="bold-300">
+              Profile{" "}
+              {isUpdate ? (
+                <>
+                  <span
+                    onClick={toggleUpdate}
+                    className="clickable-icon material-icons"
+                  >
+                    edit
+                  </span>
+                </>
+              ) : (
+                <></>
+              )}
+            </p>
           </div>
           <hr />
           <form onSubmit={handle_Submit}>
-            
-              <div className="input-row">
-                <div className="col">
-                  <label>First Name*</label>
-                  <input
-                    className="form-control "
-                    type="text"
-                    name="firstName"
-                    onChange={handleInputChange}
-                    value={profile.firstName}
-                    autoComplete="off"
-                    required
-                  />
-                </div>
-
-                <div className="col">
-                  <label>Middle Name</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="middleName"
-                    onChange={handleInputChange}
-                    value={profile.middleName}
-                    autoComplete="off"
-                    placeholder="Optional"
-                  />
-                </div>
-
-                <div className="col">
-                  <label>Last Name</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="lastName"
-                    onChange={handleInputChange}
-                    value={profile.lastName}
-                    autoComplete="off"
-                    placeholder="Optional"
-                  />
-                </div>
+            <div className="input-row">
+              <div className="col">
+                <InputComponent
+                  label="First Name*"
+                  name="firstName"
+                  value={profile.firstName}
+                  placeholder="required"
+                  maxLength=""
+                  minLength=""
+                  showUpdate={showUpdate}
+                  isUpdate={isUpdate}
+                  handleInputChange={handleInputChange}
+                  required="required"
+                />
               </div>
 
-              <div className="input-row">
-                <div className="col">
-                  <label>Gender*</label>
-                  <select
-                    name="gender"
-                    value={profile.gender}
-                    className="form-control"
-                    onChange={handleInputChange}
-                    required
-                  >
-                    {genders.map((gender, index) => (
-                      <option key={index} value={gender.value}>
-                        {gender.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="col">
-                  <label>Date of Birth*</label>
-                  <input
-                    className="form-control"
-                    type="date"
-                    name="dateOfBirth"
-                    onChange={handleInputChange}
-                    value={profile.dateOfBirth}
-                    autoComplete="off"
-                    max={moment().format("YYYY-MM-DD")}
-                    required
-                  />
-                </div>
-
-                <div className="col">
-                  <label>Blood Group*</label>
-                  <select
-                    name="bloodGroup"
-                    value={profile.bloodGroup}
-                    className="form-control"
-                    onChange={handleInputChange}
-                    required
-                  >
-                    {bloodGroups.map((bloodGroup, index) => (
-                      <option key={index} value={bloodGroup.value}>
-                        {bloodGroup.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              <div className="col">
+                <InputComponent
+                  label="Middle Name"
+                  name="middleName"
+                  value={profile.middleName}
+                  placeholder="Optional"
+                  maxLength=""
+                  minLength=""
+                  showUpdate={showUpdate}
+                  isUpdate={isUpdate}
+                  handleInputChange={handleInputChange}
+                />
               </div>
 
-              <div className="input-row">
-                <div className="col">
-                  <label>Email ID*</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="emailId"
-                    onChange={handleInputChange}
-                    value={profile.emailId}
-                    autoComplete="off"
-                    required
-                  />
-                </div>
-
-                <div className="col">
-                  <label>Mobile Number*</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="mobileNumber"
-                    onChange={handleInputChange}
-                    value={profile.mobileNumber}
-                    autoComplete="off"
-                    maxLength="10"
-                    minLength="10"
-                    required
-                  />
-                </div>
-
-                <div className="col">
-                  <label>Alternate Mobile Number</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="alternateMobileNumber"
-                    onChange={handleInputChange}
-                    value={profile.alternateMobileNumber}
-                    placeholder="Optional"
-                    autoComplete="off"
-                    maxLength="10"
-                    minLength="10"
-                  />
-                </div>
+              <div className="col">
+                <InputComponent
+                  label="Last Name"
+                  name="lastName"
+                  value={profile.lastName}
+                  placeholder="Optional"
+                  maxLength=""
+                  minLength=""
+                  showUpdate={showUpdate}
+                  isUpdate={isUpdate}
+                  handleInputChange={handleInputChange}
+                />
               </div>
-              <div className="input-row">
-                <div className="col">
-                  <label>Address Line*</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="addressLine"
-                    onChange={handleInputChange}
-                    value={profile.addressLine}
-                    autoComplete="off"
-                    required
-                  />
-                </div>
-                <div className="col">
-                  <label>City or Town*</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="cityOrTown"
-                    onChange={handleInputChange}
-                    value={profile.cityOrTown}
-                    autoComplete="off"
-                    required
-                  />
-                </div>
-                <div className="col">
-                  <label>District*</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="district"
-                    onChange={handleInputChange}
-                    value={profile.district}
-                    autoComplete="off"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="input-row">
-                <div className="col">
-                  <label>State*</label>
-                  <select
-                    name="state"
-                    value={profile.state}
-                    className="form-control"
-                    onChange={handleInputChange}
-                    required
-                  >
-                    {states.map((state, index) => (
-                      <option key={index} value={state.value}>
-                        {state.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+            </div>
 
-                <div className="col">
-                  <label>Pin*</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="pin"
-                    onChange={handleInputChange}
-                    value={profile.pin}
-                    autoComplete="off"
-                    maxLength="6"
-                    minLength="6"
-                    required
-                  />
-                </div>
-
-                <div className="col">
-                  <label>Aadhaar Card Number*</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="aadhaarCardNumber"
-                    onChange={handleInputChange}
-                    value={profile.aadhaarCardNumber}
-                    autoComplete="off"
-                    minLength="12"
-                    maxLength="12"
-                    required
-                  />
-                </div>
+            <div className="input-row">
+              <div className="col">
+                <InputSelectComponent
+                  label="Gender*"
+                  name="gender"
+                  value={profile.gender}
+                  handleInputChange={handleInputChange}
+                  list={genders}
+                  showUpdate={showUpdate}
+                  isUpdate={isUpdate}
+                />
               </div>
-            
+
+              <div className="col">
+                <InputDateComponent
+                  label="Date of Birth*"
+                  name="dateOfBirth"
+                  value={profile.dateOfBirth}
+                  handleInputChange={handleInputChange}
+                  showUpdate={showUpdate}
+                  isUpdate={isUpdate}
+                />
+              </div>
+
+              <div className="col">
+                <InputSelectComponent
+                  label="Blood Group*"
+                  name="bloodGroup"
+                  value={profile.bloodGroup}
+                  handleInputChange={handleInputChange}
+                  list={bloodGroups}
+                  showUpdate={showUpdate}
+                  isUpdate={isUpdate}
+                />
+              </div>
+            </div>
+
+            <div className="input-row">
+              <div className="col">
+                <InputComponent
+                  label="Email ID"
+                  name="emailId"
+                  value={profile.emailId}
+                  placeholder="required"
+                  maxLength=""
+                  minLength=""
+                  showUpdate={showUpdate}
+                  isUpdate={isUpdate}
+                  handleInputChange={handleInputChange}
+                />
+              </div>
+
+              <div className="col">
+                <InputComponent
+                  label="Mobile Number"
+                  name="mobileNumber"
+                  value={profile.mobileNumber}
+                  placeholder="required"
+                  maxLength="10"
+                  minLength="10"
+                  showUpdate={showUpdate}
+                  isUpdate={isUpdate}
+                  handleInputChange={handleInputChange}
+                />
+              </div>
+            </div>
+            <div className="input-row">
+              <div className="col">
+                <InputComponent
+                  label="Alternate Mobile Number"
+                  name="alternateMobileNumber"
+                  value={profile.alternateMobileNumber}
+                  placeholder="Optional"
+                  maxLength="10"
+                  minLength="10"
+                  showUpdate={showUpdate}
+                  isUpdate={isUpdate}
+                  handleInputChange={handleInputChange}
+                />
+              </div>
+              <div className="col">
+                <InputComponent
+                  label="Address Line*"
+                  name="addressLine"
+                  value={profile.addressLine}
+                  placeholder="required"
+                  maxLength=""
+                  minLength=""
+                  showUpdate={showUpdate}
+                  isUpdate={isUpdate}
+                  handleInputChange={handleInputChange}
+                />
+              </div>
+            </div>
+            <div className="input-row">
+              <div className="col">
+                <InputComponent
+                  label="City or Town*"
+                  name="cityOrTown"
+                  value={profile.cityOrTown}
+                  placeholder="required"
+                  maxLength=""
+                  minLength=""
+                  showUpdate={showUpdate}
+                  isUpdate={isUpdate}
+                  handleInputChange={handleInputChange}
+                />
+              </div>
+              <div className="col">
+                <InputComponent
+                  label="District*"
+                  name="district"
+                  value={profile.district}
+                  placeholder="required"
+                  maxLength=""
+                  minLength=""
+                  showUpdate={showUpdate}
+                  isUpdate={isUpdate}
+                  handleInputChange={handleInputChange}
+                />
+              </div>
+              <div className="col">
+                <InputSelectComponent
+                  label="State*"
+                  name="state"
+                  value={profile.state}
+                  handleInputChange={handleInputChange}
+                  list={states}
+                  showUpdate={showUpdate}
+                  isUpdate={isUpdate}
+                />
+              </div>
+
+              <div className="col">
+                <InputComponent
+                  label="Pin*"
+                  name="pin"
+                  value={profile.pin}
+                  placeholder="required"
+                  maxLength="6"
+                  minLength="6"
+                  showUpdate={showUpdate}
+                  isUpdate={isUpdate}
+                  handleInputChange={handleInputChange}
+                />
+              </div>
+            </div>
+            <div className="input-row">
+              <div className="col">
+                <InputComponent
+                  label="Aadhaar Card Number*"
+                  name="aadhaarCardNumber"
+                  value={profile.aadhaarCardNumber}
+                  placeholder="required"
+                  maxLength="12"
+                  minLength="12"
+                  showUpdate={showUpdate}
+                  isUpdate={isUpdate}
+                  handleInputChange={handleInputChange}
+                />
+              </div>
+            </div>
+
             <hr />
             <p className="font-small">
               <strong>Note:</strong> When you fill this form and submit it, The
               data will reflect in your dashboard.
             </p>
 
-            {isUpdate === true ? (
-              <button
-                // onClick={handleUpdate}
-                className="btn btn-primary"
-                type="submit"
-                name="PUT"
-                value="PUT"
-              >
-                Update
-              </button>
+            {isUpdate ? (
+              <>
+                {showUpdate ? (
+                  <>
+                    <div className="input-row">
+                      <button
+                        className="btn btn-primary"
+                        type="submit"
+                        name="PUT"
+                        value="PUT"
+                      >
+                        Done
+                      </button>
+                      <button
+                        className="btn btn-secondary"
+                        onClick={toggleUpdate}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <div></div>
+                )}
+              </>
             ) : (
               <button
                 // onClick={handleSubmit}

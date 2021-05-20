@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Avatar from 'react-avatar-edit'
 import male from "../assets/Images/profile.png";
-import "./style.css";
+import "../css/style.css";
 
 const ProfileAvatar = () => {
 
@@ -28,19 +28,18 @@ const ProfileAvatar = () => {
             onCrop={onCrop}
             onClose={onClose}
             closeIconColor = "black"
-            shadingColor="white"
-            
+            shadingColor="white"    
             // src={src}
           />
-        
-          <button className="btn btn-primary" onClick={() => { setPostview(preview); setShowAvatar(false); }}>OK</button>
+          <button className="btn btn-sm btn-primary" onClick={() => { setPostview(preview); setShowAvatar(false); }}>OK</button>
 
         </div>
       ) : (<></>)}
-
+  
       <div className="profile-postview">
         <img className="postview" src={postview} alt="postview" />
       </div>
+      <hr/>
       <button className="btn btn-primary" onClick={() => { setShowAvatar(true) }}>Upload Photo</button>
     </div>
   );
