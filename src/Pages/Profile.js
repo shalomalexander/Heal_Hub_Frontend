@@ -117,13 +117,14 @@ const Profile = () => {
       .then(() => {
         toast.success("Profile Updated Successfully.");
         setShowUpdate(false);
+        window.location.reload(false);
       })
       .catch((error) => {
         console.log(error.response);
         toast.error("Couldn't Update.");
       });
 
-    window.location.reload(false);
+    
   };
 
   const handle_Submit = (event) => {
