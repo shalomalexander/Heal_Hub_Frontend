@@ -671,6 +671,24 @@ p {
   border-radius: 10px;
 }
 
+.image-container {
+  height: 100px;
+  width: auto;
+  border: black 2px solid;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.custom-btn {
+  
+ 
+  width: 100px;
+  border-radius: 10px;
+  background-color: #00587a;
+  color: white;
+
+}
+
 /*---------------------------MEDIA QUERY FOR 1221 PX-----------------------------------------*/
 
 @media only screen and (max-width: 1221px), screen and (max-height:751px )  {

@@ -5,66 +5,18 @@ import toast from "react-hot-toast";
 import InputComponent from "../components/InputComponent";
 import InputSelectComponent from "../components/InputSelectComponent";
 import InputDateComponent from "../components/InputDateComponent";
+import InputFileComponent from "../components/InputFileComponent";
+import ProfileAvatar from "../components/ProfileAvatar";
+import { bloodGroups, states, genders }  from "../LabelValue";
 
 const Profile = () => {
   const url = useContext(urlContext);
 
   const { state } = useContext(loginContext);
-
-  const bloodGroups = [
-    { label: "Choose", value: "" },
-    { label: "A+", value: "A+" },
-    { label: "B+", value: "B+" },
-    { label: "AB+", value: "AB+" },
-    { label: "O+", value: "O+" },
-    { label: "O-", value: "O-" },
-    { label: "A-", value: "A-" },
-    { label: "B-", value: "B-" },
-    { label: "AB-", value: "AB-" },
-  ];
-
-  const states = [
-    { label: "Choose", value: "" },
-    { label: "Andhra Pradesh", value: "Andhra Pradesh" },
-    { label: "Arunachal Pradesh", value: "Arunachal Pradesh" },
-    { label: "Assam", value: "Assam" },
-    { label: "Bihar", value: "Bihar" },
-    { label: "Chhattisgarh", value: "Chhattisgarh" },
-    { label: "Goa", value: "Goa" },
-    { label: "Gujarat", value: "Gujarat" },
-    { label: "Haryana", value: "Haryana" },
-    { label: "Himachal Pradesh", value: "Himachal Pradesh" },
-    { label: "Jammu and Kashmir", value: "Jammu and Kashmir" },
-    { label: "Jharkhand", value: "Jharkhand" },
-    { label: "Karnataka", value: "Karnataka" },
-    { label: "Kerala", value: "Kerala" },
-    { label: "Madhya Pradesh", value: "Madhya Pradesh" },
-    { label: "Maharashtra", value: "Maharashtra" },
-    { label: "Manipur", value: "Manipur" },
-    { label: "Meghalaya", value: "Meghalaya" },
-    { label: "Mizoram", value: "Mizoram" },
-    { label: "Nagaland", value: "Nagaland" },
-    { label: "Odisha", value: "Odisha" },
-    { label: "Punjab", value: "Punjab" },
-    { label: "Rajasthan", value: "Rajasthan" },
-    { label: "Sikkim", value: "Sikkim" },
-    { label: "Tamil Nadu", value: "Tamil Nadu" },
-    { label: "Telangana", value: "Telangana" },
-    { label: "Tripura", value: "Tripura" },
-    { label: "Uttar Pradesh", value: "Uttar Pradesh" },
-    { label: "Uttarakhand", value: "Uttarakhand" },
-    { label: "West Bengal", value: "West Bengal" },
-  ];
-
-  const genders = [
-    { label: "Choose", value: "" },
-    { label: "Male", value: "Male" },
-    { label: "Female", value: "Female" },
-    { label: "Others", value: "Others" },
-  ];
-
+ 
   const [profile, setProfile] = useState({
     user: "",
+    profilePicture: "",
     firstName: "",
     middleName: "",
     lastName: "",
@@ -80,50 +32,89 @@ const Profile = () => {
     state: "",
     pin: "",
     aadhaarCardNumber: "",
+    fingerprint: "",
   });
 
   const [isUpdate, setIsUpdate] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
 
+  const handleProfilePictureChange = (base64image) => {
+    setProfile((prevData)=> {
+      return {...prevData, "profilePicture": base64image, user:state.user.id};
+    })
+  } 
+
   const handleInputChange = (event) => {
-    const { name, value } = event.target;
+    const { name } = event.target;
+
+    const value =
+      event.target.name === "fingerprint"
+        ? event.target.files[0]
+        : event.target.value;
+
     setProfile((prevData) => {
       return { ...prevData, [name]: value, user: state.user.id };
     });
+
+    console.log(profile);
   };
 
   const handleSubmit = (event) => {
     //AXIOS POST Request
+
+    let formData = new FormData();
+
+    for (const [key, value] of Object.entries(profile)) {
+      formData.append(key, value);
+    }
+
     axios
-      .post(url + "/api/v1/PersonalInfo/", profile, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
+      .post(url + "/api/v1/PersonalInfo/", formData)
+      .then(() => {
         toast.success("Profile Updated Successfully.");
+        window.location.reload(false);
       })
       .catch((error) => {
         console.log(error.response.request);
       });
   };
 
+  const isValidHttpUrl = (string) => {
+    let url;
+
+    try {
+      url = new URL(string);
+    } catch (_) {
+      return false;
+    }
+    return url.protocol === "http:" || url.protocol === "https:";
+  };
+
   const handleUpdate = async (event) => {
     if (event) {
       event.preventDefault();
     }
+
+    let formData = new FormData();
+
+    for (const [key, value] of Object.entries(profile)) {
+      formData.append(key, value);
+    }
+
+    if (typeof profile.fingerprint !== "object" || profile.fingerprint===null) {
+      formData.delete("fingerprint");
+    }
+
+    if (isValidHttpUrl(profile.profilePicture) || profile.profilePicture===null) {
+      formData.delete("profilePicture");
+    }
+
     axios
       .patch(
         url + "/api/v1/PersonalInfoOfSpecificUser/" + state.user.id,
-        profile,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        formData
       )
-      .then((response) => {
-        // alert("Profile Updated Successfully.");
+      .then(() => {
         toast.success("Profile Updated Successfully.");
         setShowUpdate(false);
       })
@@ -131,6 +122,8 @@ const Profile = () => {
         console.log(error.response);
         toast.error("Couldn't Update.");
       });
+
+    window.location.reload(false);
   };
 
   const handle_Submit = (event) => {
@@ -144,7 +137,6 @@ const Profile = () => {
 
   const toggleUpdate = () => {
     setShowUpdate(!showUpdate);
-    
   };
 
   useEffect(() => {
@@ -173,6 +165,8 @@ const Profile = () => {
             state: response.data["state"],
             pin: response.data["pin"],
             aadhaarCardNumber: response.data["aadhaarCardNumber"],
+            fingerprint: response.data["fingerprint"],
+            profilePicture: response.data["profilePicture"]
           };
         });
       } catch (error) {
@@ -185,27 +179,39 @@ const Profile = () => {
   return (
     <>
       <div className="content-inner">
+       
         <div className="profile-inner">
-          <div className="row">
-            <p className="bold-300">
+          <div className="input-row">
+            <p className="bold-300 col">
               Profile{" "}
-              {isUpdate ? (
+            </p>
+            {isUpdate ? (
                 <>
-                  <span
+                <div>
+                  <button
                     onClick={toggleUpdate}
-                    className="clickable-icon material-icons"
+                    className="btn btn-primary btn-sm"
                   >
-                    edit
-                  </span>
+                    Edit
+                  </button>
+                </div>  
                 </>
               ) : (
                 <></>
               )}
-            </p>
           </div>
           <hr />
           <form onSubmit={handle_Submit}>
             <div className="input-row">
+              <div className="col">
+                <ProfileAvatar
+                  name="profilePicture"
+                  handleProfilePictureChange={handleProfilePictureChange}
+                  showUpdate={showUpdate}
+                  isUpdate={isUpdate}
+                  profilePictureSource = {profile.profilePicture}
+                />
+              </div>
               <div className="col">
                 <InputComponent
                   label="First Name*"
@@ -406,6 +412,16 @@ const Profile = () => {
                   placeholder="required"
                   maxLength="12"
                   minLength="12"
+                  showUpdate={showUpdate}
+                  isUpdate={isUpdate}
+                  handleInputChange={handleInputChange}
+                />
+              </div>
+              <div className="col">
+                <InputFileComponent
+                  label="Fingerprint"
+                  name="fingerprint"
+                  value={profile.fingerprint}
                   showUpdate={showUpdate}
                   isUpdate={isUpdate}
                   handleInputChange={handleInputChange}

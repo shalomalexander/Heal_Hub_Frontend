@@ -7,7 +7,7 @@ const InputComponent = (props) => {
 
       {props.showUpdate ? (
         <input
-          className="form-control "
+          className="form-control"
           type="text"
           name={props.name}
           onChange={props.handleInputChange}
