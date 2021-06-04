@@ -64,14 +64,14 @@ const AccessByFP = () => {
         <p className="bold-300">Access by Fingerprint</p>
         <hr />
         <div className="table-responsive-sm">
-          <table className="table">
+          <table className="table table-bordered table-dark">
             <thead>
               <tr>
                 <th scope="col">Fingerprint Image</th>
                 <th scope="col" className="w-10">Upload Fingerprint</th>
                 <th scope="col">Gender</th>
-                <th scope="col">Clear</th>
-                <th scope="col">Search</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
