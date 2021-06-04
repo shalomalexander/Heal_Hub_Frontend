@@ -3,8 +3,8 @@ import InsuranceCard from "../components/InsuranceCard";
 import InsuranceForm from "../Forms/InsuranceForm";
 import axios from "axios";
 
-
 import { loginContext, urlContext } from "../App";
+import nodata from "../assets/SVG/HEALHUB-NODATA.svg";
 
 const Insurance = () => {
   const url = useContext(urlContext);
@@ -110,30 +110,35 @@ const Insurance = () => {
   return (
     <>
       <div className="content-inner">
-        
-          <div className="align-centre">
-            <div className="col-9">
-              <p className="bold-300">Insurance Information</p>
-            </div>
-            <div className="col">
-              <button
-                onClick={toggleShowModal}
-                className="btn btn-primary btn-sm"
-              >
-                Add
-              </button>
-            </div>
+        <div className="align-centre">
+          <div className="col-9">
+            <p className="bold-300">Insurance Information</p>
           </div>
-          <InsuranceForm
-            showModal={showModal}
-            setShowModal={setShowModal}
-            handleSubmit={handleSubmit}
-            handleInputChange={handleInputChange}
-            insuranceInfo={insuranceInfo}
-          />
-          <hr/>
-
-          {insurances.map((value, index) => {
+          <div className="col">
+            <button
+              onClick={toggleShowModal}
+              className="btn btn-primary btn-sm"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+        <InsuranceForm
+          showModal={showModal}
+          setShowModal={setShowModal}
+          handleSubmit={handleSubmit}
+          handleInputChange={handleInputChange}
+          insuranceInfo={insuranceInfo}
+        />
+        <hr />
+        {insurances.length === 0 ? (
+          <>
+            <div className="no-data-wrapper">
+              <img className="home-1-img" src={nodata} alt="#" />
+            </div>
+          </>
+        ) : (
+          insurances.map((value, index) => {
             return (
               <InsuranceCard
                 data={value}
@@ -142,8 +147,8 @@ const Insurance = () => {
                 onSelect={deleteItem}
               />
             );
-          })}
-
+          })
+        )}
       </div>
     </>
   );

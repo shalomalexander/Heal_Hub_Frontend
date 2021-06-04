@@ -35,25 +35,29 @@ const FindUser = () => {
             <p className="bold-300">Find Registered Patient Detail</p>
           </div>
         </div>
-        <div className="input-row">
-          <input
-            type="text"
-            className="col-9 form-control"
-            id="myInput"
-            placeholder="Enter username to search"
-            name="search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
         <hr />
+        <table className="table">
+          <tbody>
+            <tr>
+              <td>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="myInput"
+                  placeholder="Enter username to search"
+                  name="search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-       
-          {filteredNames.map((name, index) => (
-            <UserCard value={name} key={index} />
-          ))}
-        </div>
-    
+        {filteredNames.map((name, index) => (
+          <UserCard value={name} key={index} />
+        ))}
+      </div>
     </>
   );
 };

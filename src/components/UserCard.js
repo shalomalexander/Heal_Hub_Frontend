@@ -3,24 +3,24 @@ const UserCard = (props) => {
     const {id, username, email } = props.value;
   return (
     <>
-       <div className="table-inner">
-        <table className="table table-boardered table-info">
+
+        <table className="table table-inner">
           <tbody>
             <tr>
-              <th className="w-25">ID:</th>
+              <th>ID:</th>
               <td>{id}</td>
             </tr>
             <tr>
-              <th className="w-25">Username:</th>
+              <th>Username:</th>
               <td>{username}</td>
             </tr>
             <tr>
-              <th className="w-25">Email ID:</th>
+              <th>Email ID:</th>
               <td>{email}</td>
             </tr>
           </tbody>
         </table>
-      </div>
+  
     </>
   );
 };

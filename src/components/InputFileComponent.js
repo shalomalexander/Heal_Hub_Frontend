@@ -31,7 +31,7 @@ const InputFileComponent = (props) => {
       ) : (
         <>
         {
-            props.value ? (<img className=" image-container" src={props.value} alt="#"/>) : (<p className="form-control">NULL</p>)
+            props.value ? (<img className="image-container" src={props.value} alt="#"/>) : (<p className="form-control">NULL</p>)
         }
         </>
       )}

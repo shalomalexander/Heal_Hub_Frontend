@@ -43,7 +43,7 @@ const OTPScreen = () => {
 
   return (
     <>
-      <div className="profile-inner">
+      <div className="auth-inner">
         <p className="bold-300">
           <span className=" material-icons">lock</span>OTP
         </p>

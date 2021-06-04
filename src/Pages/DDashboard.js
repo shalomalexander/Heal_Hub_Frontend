@@ -1,4 +1,5 @@
-import DProfileCard from "../components/DProfileCard";
+import DoctorProfileCard from "../components/DoctorProfileCard";
+import RecentActivities from "../components/RecentActivities";
 
 const DDashboard = () => {
   return (
@@ -6,9 +7,8 @@ const DDashboard = () => {
       <div className="content-inner">
         <p className="bold-300">Dashboard</p>
         <hr />
-        <div className="profile-inner">
-         <DProfileCard/>
-        </div>
+        <DoctorProfileCard />
+        <RecentActivities />
       </div>
     </>
   );

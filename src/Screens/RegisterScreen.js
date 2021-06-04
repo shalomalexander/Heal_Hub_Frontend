@@ -49,7 +49,7 @@ const RegisterScreen = () => {
           response.data.user["phone_number"]
         );
       })
-      .catch((error) => console.log(error.response.request._response));
+      .catch((error) => console.log(error.response));
     console.log("Registered");
     history.push("/otpscreen");
   };
@@ -62,7 +62,7 @@ const RegisterScreen = () => {
           <div className="auth-inner">
             <form onSubmit={handleSubmit}>
               <h4 className="align-centre roboto-font">
-                <span class="material-icons">person_add </span>Registeration
+                <span className="material-icons">person_add </span>Registeration
               </h4>
               <div className="form-group">
                 <label className="font-small">Username</label>

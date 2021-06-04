@@ -3,6 +3,7 @@ import PrescriptionCard from "../components/PrescriptionCard";
 // import logo from "../HealHubLogo.jpeg";
 import axios from "axios";
 import { loginContext, urlContext } from "../App";
+import nodata from "../assets/SVG/HEALHUB-NODATA.svg";
 
 const Prescription = () => {
   const { state } = useContext(loginContext);
@@ -41,17 +42,22 @@ const Prescription = () => {
           <div className="col">
             <p className="bold-300">Medical Prescriptions</p>
           </div>
-          {/* <div className="col">
-            <button className="btn  btn-primary btn-sm" onClick={() => generatePDF()}>
-              Generate PDF
-            </button>
-          </div> */}
         </div>
         <hr />
         <div className="">
-          {prescriptions.map((value, index) => {
-            return <PrescriptionCard data={value} key={index} id={value.id} />;
-          })}
+          {prescriptions.length === 0 ? (
+            <>
+              <div className="no-data-wrapper">
+                <img className="home-1-img" src={nodata} alt="#" />
+              </div>
+            </>
+          ) : (
+            prescriptions.map((value, index) => {
+              return (
+                <PrescriptionCard data={value} key={index} id={value.id} />
+              );
+            })
+          )}
         </div>
       </div>
     </>
