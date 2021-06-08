@@ -1,37 +1,3 @@
-/* .drag-drop-wrapper {
-    background-color: #caf7e3;
-    width: auto;
-    border: #0a81ab 2px dotted;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-} */
-
-.drag-drop-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.drag-drop-input {
-    padding: 30px;
-    background-color: aliceblue;
-    border: #0a81ab 2px dotted;
-    border-radius: 10px;
-    transition: all 0.3s;
-}
-
-.drag-drop-input:hover {
-    background-color: #caf7e3;
-    cursor: pointer;
-}
-
-.button {
-    margin: 5px;
-}
-
 .patient-card-wrapper {
     background-color: azure;
     height: 50px;
@@ -43,5 +9,11 @@
 .table-image-container {
     height: 70px;
     width: auto;
+    border: black 2px solid;
     border-radius: 5px;
+}
+
+.table {
+    border-radius: 5px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }

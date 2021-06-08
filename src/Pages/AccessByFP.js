@@ -1,27 +1,23 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { urlContext } from "../App";
 import "../css/AccessByFP.css";
 import img from "../assets/Images/default.jpg";
 import profile_img from "../assets/Images/profile.png";
 import { genders } from "../LabelValue";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 const AccessByFP = () => {
+  const url = useContext(urlContext);
+
   const [data, setData] = useState({
     fingerprint: "",
-    gender:""
+    gender: "",
   });
 
   const [temp, setTemp] = useState("");
 
-  const patients = [
-    {
-      name: "Shalom T Alexander",
-      age: "21",
-      pid: "98",
-      phoneNumber: "9873738859", 
-      alternateNumber: "9899129257" 
-    }
-  ];
+  const [patients, setPatients] = useState([]);
 
   const handleInputChange = (event) => {
     const { name } = event.target;
@@ -41,22 +37,56 @@ const AccessByFP = () => {
     }
   };
 
-  const handleClear = () => {
-    setData({ fingerprint: "", gender:"" });
-    console.log(data);
-    window.location.reload(false);
-  
+  const handleSelectChange = (event) => {
+    const { name, value } = event.target;
+    setData((prevData) => {
+      return { ...prevData, [name]: value };
+    });
   };
 
-  const handleSubmit = () => {
-    toast.success("Submitted");
+  const handleSearch = async (event) => {
+    toast.loading("Fetching Data!",{duration: 1000});
+
+    if (event) {
+      event.preventDefault();
+    }
+
+    const formData = new FormData();
+
+    for (const [key, value] of Object.entries(data)) {
+      formData.append(key, value);
+    }
+
+    await axios
+      .post(url + "/api/v1/fingerprint/match/", formData)
+      .then((res) => {
+        setPatients([res.data]);
+        if(res.data.length === 0) {
+          toast('No user found', {
+            icon: '⚠️',
+          });
+        } else {
+          toast.success("Successful, User Found");
+        }
+        
+      })
+      .catch((error) => {
+        console.log(error.response);
+        toast.error("There was some error");
+      });
+
+    
+  };
+
+  const handleClear = () => {
+    setData({ fingerprint: "", gender: "" });
     console.log(data);
+    window.location.reload(false);
   };
 
   const handleRequest = () => {
     toast.success("Requested");
-  }
-
+  };
 
   return (
     <>
@@ -64,11 +94,13 @@ const AccessByFP = () => {
         <p className="bold-300">Access by Fingerprint</p>
         <hr />
         <div className="table-responsive-sm">
-          <table className="table table-bordered table-dark">
-            <thead>
+          <table className="table table-success">
+            <thead className="table-borderless">
               <tr>
                 <th scope="col">Fingerprint Image</th>
-                <th scope="col" className="w-10">Upload Fingerprint</th>
+                <th scope="col" className="w-10">
+                  Upload Fingerprint
+                </th>
                 <th scope="col">Gender</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
@@ -91,7 +123,7 @@ const AccessByFP = () => {
                     </>
                   )}
                 </td>
-                <td className="w-10">
+                <td>
                   <input
                     name="fingerprint"
                     onChange={handleInputChange}
@@ -100,7 +132,12 @@ const AccessByFP = () => {
                   />
                 </td>
                 <td>
-                  <select className="form-control">
+                  <select
+                    name="gender"
+                    value={data.gender}
+                    className="form-control"
+                    onChange={handleSelectChange}
+                  >
                     {genders.map((gender, index) => (
                       <option key={index} value={gender.value}>
                         {gender.label}
@@ -114,7 +151,7 @@ const AccessByFP = () => {
                   </button>
                 </td>
                 <td>
-                  <button className="btn btn-primary" onClick={handleSubmit}>
+                  <button className="btn btn-primary" onClick={handleSearch}>
                     Search
                   </button>
                 </td>
@@ -122,47 +159,52 @@ const AccessByFP = () => {
             </tbody>
           </table>
         </div>
-        <strong style={{ fontSize: "25px",}}>
-          Best Match
-        </strong>
+      
         <div className="table-responsive">
-          <table className="table">
+          <table className="table table-bordered">
             <thead>
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Photo</th>
-                <th scope="col">Name</th>
-                <th scope="col">Age</th>
                 <th scope="col">Patient ID</th>
+                <th scope="col">Name</th>
                 <th scope="col">Phone Number</th>
                 <th scope="col">Alternate Number</th>
                 <th scope="col">Request</th>
               </tr>
             </thead>
-            <tbody>
-              {patients.map((patient, index) => {
-                return (
-                  <tr key={index}>
-                    <th scope="row">{index}</th>
-                    <td>
-                      <img
-                        className="table-image-container"
-                        src={profile_img}
-                        alt="#"
-                      />
-                    </td>
-                    <td>{patient.name}</td>
-                    <td>{patient.age}</td>
-                    <td>{patient.pid}</td>
-                    <td>{patient.phoneNumber}</td>
-                    <td>{patient.alternateNumber}</td>
-                    <td>
-                      <button onClick={handleRequest} className="btn btn-warning">Request</button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
+            {patients.length === 0 ? (
+              <></>
+            ) : (
+              <tbody>
+                {patients[0].map((patient, index) => {
+                  return (
+                    <tr key={index}>
+                      <th scope="row">{index}</th>
+                      <td>
+                        <img
+                          className="table-image-container"
+                          src={patient.profilePicture.length===0 ? profile_img : patient.profilePicture}
+                          alt="#"
+                        />
+                      </td>
+                      <td>{patient.user}</td>
+                      <td>{patient.firstName}</td>
+                      <td>{patient.mobileNumber}</td>
+                      <td>{patient.alternateMobileNumber}</td>
+                      <td>
+                        <button
+                          onClick={handleRequest}
+                          className="btn btn-warning"
+                        >
+                          Request
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            )}
           </table>
         </div>
       </div>
