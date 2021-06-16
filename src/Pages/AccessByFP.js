@@ -45,7 +45,7 @@ const AccessByFP = () => {
   };
 
   const handleSearch = async (event) => {
-    toast.loading("Fetching Data!",{duration: 1000});
+    toast.loading("Fetching Data!", { duration: 1000 });
 
     if (event) {
       event.preventDefault();
@@ -61,21 +61,18 @@ const AccessByFP = () => {
       .post(url + "/api/v1/fingerprint/match/", formData)
       .then((res) => {
         setPatients([res.data]);
-        if(res.data.length === 0) {
-          toast('No user found', {
-            icon: '⚠️',
+        if (res.data.length === 0) {
+          toast("No user found", {
+            icon: "⚠️",
           });
         } else {
           toast.success("Successful, User Found");
         }
-        
       })
       .catch((error) => {
         console.log(error.response);
         toast.error("There was some error");
       });
-
-    
   };
 
   const handleClear = () => {
@@ -90,8 +87,10 @@ const AccessByFP = () => {
 
   return (
     <>
-      <div className="content-inner">
-        <p className="bold-300">Access by Fingerprint</p>
+      <div className="">
+        <strong style={{ fontSize: "25px"}}>
+        Access by Fingerprint
+        </strong>
         <hr />
         <div className="table-responsive-sm">
           <table className="table table-success">
@@ -159,7 +158,7 @@ const AccessByFP = () => {
             </tbody>
           </table>
         </div>
-      
+
         <div className="table-responsive">
           <table className="table table-bordered">
             <thead>
@@ -184,7 +183,11 @@ const AccessByFP = () => {
                       <td>
                         <img
                           className="table-image-container"
-                          src={patient.profilePicture.length===0 ? profile_img : patient.profilePicture}
+                          src={
+                            patient.profilePicture.length === 0
+                              ? profile_img
+                              : patient.profilePicture
+                          }
                           alt="#"
                         />
                       </td>

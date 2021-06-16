@@ -110,8 +110,10 @@ const AccessById = () => {
 
   return (
     <>
-      <div className="content-inner">
-        <p className="bold-300">Access by Patient's Identity Number</p>
+      <div className="">
+        <strong style={{ fontSize: "25px"}}>
+        Access by Patient's Identity Number
+        </strong>
         <p>
           <strong>Note: </strong> When you make a request, An OTP will be
           generated and sent to user's phone number. Enter the One Time Password

@@ -15,9 +15,6 @@ const CovidTracker = () => {
       let res = await axios.get(
         "https://covid19.mathdro.id/api/countries/India/"
       );
-      console.log(res.data.lastUpdate);
-      console.log(res.data);
-
       setData((prevData) => {
         return {
           ...prevData,
